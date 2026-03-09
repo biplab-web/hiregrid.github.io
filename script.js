@@ -148,11 +148,6 @@ function loadData() {
     }
     
     updateAuthUI();
-    
-    // Show initial page if no remembered user or guest
-    if (!isLoggedIn && !isGuestMode) {
-        showPage('role-selection');
-    }
 }
 
 // Save candidates to localStorage
@@ -330,32 +325,25 @@ function logout() {
     showPage('role-selection');
 }
 
-// Update UI based on user role
-function updateUIForRole() {
-    const uploadLink = document.getElementById('upload-link');
+// Update homepage features based on user authentication
+function updateHomepageFeatures() {
     const candidatesFeature = document.getElementById('candidates-feature');
     const uploadFeature = document.getElementById('upload-feature');
     const quickCandidates = document.getElementById('quick-candidates');
     const quickUpload = document.getElementById('quick-upload');
-
-    if (userRole === 'hr' || userRole === 'employee') {
-        if (uploadLink) uploadLink.style.display = 'block';
-    } else {
-        if (uploadLink) uploadLink.style.display = 'none';
-    }
-
+    
     if (isLoggedIn && !isGuestMode) {
+        // Show all features for logged-in users
         if (candidatesFeature) candidatesFeature.style.display = 'block';
         if (uploadFeature) uploadFeature.style.display = 'block';
         if (quickCandidates) quickCandidates.style.display = 'inline-flex';
         if (quickUpload) quickUpload.style.display = 'inline-flex';
-    } else {
+    } else if (isGuestMode) {
+        // Hide candidates and upload for guests
         if (candidatesFeature) candidatesFeature.style.display = 'none';
         if (uploadFeature) uploadFeature.style.display = 'none';
         if (quickCandidates) quickCandidates.style.display = 'none';
         if (quickUpload) quickUpload.style.display = 'none';
-    }
-}
     }
 }
 
