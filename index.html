@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="HireGrid - Connect employers with top talent in Nepal. Find candidates by skills, location, and experience.">
+    <meta name="keywords" content="jobs, hiring, Nepal, candidates, CV, recruitment, talent">
+    <title>HireGrid - Find the Best Talent in Nepal</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                <img src="logo.png" alt="HireGrid Logo" style="height: 40px; margin-right: 10px;">
+                
+            </div>
+            <ul class="nav-links">
+                <li><a href="#" onclick="if(isLoggedIn || isGuestMode) showPage('home'); else showPage('login')">Home</a></li>
+                <li class="profile-nav-item">
+                    <a href="#" onclick="if(isLoggedIn || isGuestMode) showPage('profile'); else showPage('login')">My Profile</a>
+                    <div class="profile-preview-tooltip" id="profile-preview-tooltip">
+                        <div class="preview-content">
+                            <div class="preview-photo" id="preview-photo">📷</div>
+                            <h4 id="preview-name">Sign In</h4>
+                            <p id="preview-role">View your profile</p>
+                        </div>
+                    </div>
+                </li>
+                <li><a href="#" onclick="if(isLoggedIn && !isGuestMode) showPage('candidates'); else if(isGuestMode) alert('Candidates page is not available for guest users'); else showPage('login')">Candidates</a></li>
+                <li id="upload-link"><a href="#" onclick="if(isLoggedIn || isGuestMode) showPage('upload'); else showPage('login')">Upload CV</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Homepage/Dashboard -->
+    <div id="home" class="page">
+        <section class="home-hero">
+            <div class="home-content">
+                <h1 id="home-welcome-title">Welcome to HireGrid!</h1>
+                <p id="home-welcome-subtitle" class="home-subtitle">Your gateway to connecting talent with opportunity in Nepal</p>
+                
+                <div class="home-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-info">
+                            <h3 id="total-candidates">50+</h3>
+                            <p>Active Candidates</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🏢</div>
+                        <div class="stat-info">
+                            <h3 id="total-companies">25+</h3>
+                            <p>Partner Companies</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📈</div>
+                        <div class="stat-info">
+                            <h3 id="success-rate">85%</h3>
+                            <p>Success Rate</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="home-features">
+            <h2>How to Use HireGrid</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">👤</div>
+                    <h3>Complete Your Profile</h3>
+                    <p>Build a comprehensive profile with your skills, experience, and photo to attract potential employers.</p>
+                    <button onclick="showPage('profile')" class="feature-btn">Go to Profile</button>
+                </div>
+                
+                <div class="feature-card" id="candidates-feature" style="display: none;">
+                    <div class="feature-icon">🔍</div>
+                    <h3>Browse Candidates</h3>
+                    <p>Search and filter through qualified candidates by location, skills, experience, and more.</p>
+                    <button onclick="showPage('candidates')" class="feature-btn">View Candidates</button>
+                </div>
+                
+                <div class="feature-card" id="upload-feature">
+                    <div class="feature-icon">📄</div>
+                    <h3>Upload Your CV</h3>
+                    <p>Upload your CV and make it visible to HR professionals actively seeking talent like yours.</p>
+                    <button onclick="showPage('upload')" class="feature-btn">Upload CV</button>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Track Your Progress</h3>
+                    <p>Monitor your profile views, CV downloads, and engagement with potential employers.</p>
+                    <button onclick="showPage('profile')" class="feature-btn">View Stats</button>
+                </div>
+            </div>
+        </section>
+
+        
+            </div>
+        </section>
+    </div>
+
+    <div id="role-selection" class="page active">
+        <section class="role-selection-section">
+            <div class="role-options">
+                <div class="role-option">
+                    <div class="role-icon">🏢</div>
+                    <h3>HR / Employer</h3>
+                    <p>Find and connect with qualified candidates</p>
+                    <button onclick="selectRole('hr')" class="role-btn hr-btn">Continue as HR</button>
+                </div>
+
+                <div class="role-option">
+                    <div class="role-icon">👨‍💼</div>
+                    <h3>Job Seeker</h3>
+                    <p>Upload your CV and find job opportunities</p>
+                    <button onclick="selectRole('employee')" class="role-btn employee-btn">Continue as Job Seeker</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div id="auth-choice" class="page">
+        <section class="auth-choice-section">
+            <h2>How would you like to proceed?</h2>
+            <p class="auth-subtitle">Choose how you want to access HireGrid</p>
+            
+            <div class="auth-options">
+                <div class="auth-option">
+                    <div class="auth-icon">🔐</div>
+                    <h3>Sign In</h3>
+                    <p>Access your account to view profiles and upload CVs</p>
+                    <button onclick="showPage('login')" class="auth-btn primary">Sign In</button>
+                </div>
+
+                <div class="auth-divider">
+                    <span>OR</span>
+                </div>
+
+                <div class="auth-option">
+                    <div class="auth-icon">👀</div>
+                    <h3>Browse as Guest</h3>
+                    <p>Browse candidates without creating an account</p>
+                    <button onclick="setGuestMode()" class="auth-btn secondary">Continue as Guest</button>
+                </div>
+            </div>
+        </section>
+    </div>
+        
+        
+            <!-- Candidate cards will be inserted here -->
+        </section>
+    </div>
+
+    <div id="profile" class="page">
+        <!-- Profile Form Section -->
+        <div id="profile-form-section" class="profile-form-wrapper" style="display: none;">
+            <section class="profile-form">
+                <form id="profile-form">
+                    <!-- Profile Photo -->
+                    <div class="form-group">
+                        <label>Profile Photo (Optional)</label>
+                        <div class="profile-photo-upload">
+                            <div class="photo-preview" id="photo-preview">📷</div>
+                            <input type="file" id="profile-photo" accept="image/*">
+                            <button type="button" onclick="document.getElementById('profile-photo').click()">Choose Photo</button>
+                        </div>
+                    </div>
+
+                    <!-- Name -->
+                    <div class="form-group">
+                        <label>Full Name *</label>
+                        <input type="text" id="profile-name" placeholder="Enter your full name" required>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="form-group">
+                        <label>Email *</label>
+                        <input type="email" id="profile-email" placeholder="Enter your email" required>
+                    </div>
+
+                    <!-- Age -->
+                    <div class="form-group">
+                        <label>Age (Optional)</label>
+                        <input type="number" id="profile-age" placeholder="Enter your age" min="18" max="80">
+                    </div>
+
+                    <!-- Role Specific Fields -->
+                    <div class="form-group">
+                        <label>What Do You Do? *</label>
+                        <textarea id="profile-role" placeholder="Describe your role/position (e.g., Software Engineer, HR Manager)" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Experience *</label>
+                        <textarea id="profile-experience" placeholder="Describe your professional experience" required></textarea>
+                    </div>
+
+                    <!-- Skills -->
+                    <div class="form-group">
+                        <label>Skills (Optional)</label>
+                        <input type="text" id="profile-skills" placeholder="Enter skills (comma separated)">
+                    </div>
+
+                    <!-- City -->
+                    <div class="form-group">
+                        <label>City (Optional)</label>
+                        <select id="profile-city">
+                            <option value="">Select City</option>
+                            <option value="Kathmandu">Kathmandu</option>
+                            <option value="Pokhara">Pokhara</option>
+                            <option value="Lalitpur">Lalitpur</option>
+                            <option value="Bhaktapur">Bhaktapur</option>
+                            <option value="Biratnagar">Biratnagar</option>
+                            <option value="Dharan">Dharan</option>
+                            <option value="Butwal">Butwal</option>
+                            <option value="Nepalgunj">Nepalgunj</option>
+                            <option value="Chitwan">Chitwan</option>
+                            <option value="Hetauda">Hetauda</option>
+                            <option value="Janakpur">Janakpur</option>
+                            <option value="Itahari">Itahari</option>
+                            <option value="Dhangadhi">Dhangadhi</option>
+                            <option value="Tulsipur">Tulsipur</option>
+                            <option value="other">Other</option>
+                        </select>
+                        <input type="text" id="profile-city-custom" placeholder="Enter your city" style="display:none;">
+                    </div>
+
+                    <button type="submit" class="submit-btn">Save & View Profile</button>
+                </form>
+            </section>
+        </div>
+
+        <!-- Profile View Section -->
+        <div id="profile-view-section" class="profile-view-wrapper" style="display:none;">
+            <div class="profile-header-actions">
+                <button onclick="showProfileForm()" class="edit-btn primary" id="edit-profile-btn">Edit Profile</button>
+                <button onclick="slideInProfile()" class="home-btn">🏠 Home</button>
+            </div>
+            <section class="profile-display">
+                <div class="profile-header">
+                    <div class="profile-photo-display" id="profile-photo-display">�</div>
+                    <div class="profile-header-info">
+                        <h2 id="view-name">Name</h2>
+                        <p id="view-role" class="role-badge">Role</p>
+                    </div>
+                </div>
+
+                <div class="profile-content">
+                    <div class="profile-section">
+                        <h3>Contact Information</h3>
+                        <p><strong>Email:</strong> <span id="view-email">email@example.com</span></p>
+                        <p id="age-display" style="display:none;"><strong>Age:</strong> <span id="view-age">-</span></p>
+                        <p id="city-display" style="display:none;"><strong>City:</strong> <span id="view-city">-</span></p>
+                    </div>
+
+                    <div class="profile-section">
+                        <h3>What I Do</h3>
+                        <p id="view-role-desc">Professional description</p>
+                    </div>
+
+                    <div class="profile-section">
+                        <h3>Experience</h3>
+                        <p id="view-experience">Experience details</p>
+                    </div>
+
+                    <div class="profile-section" id="skills-section" style="display:none;">
+                        <h3>Skills</h3>
+                        <div id="view-skills" class="skills-list"></div>
+                    </div>
+                </div>
+
+                <div class="profile-actions">
+                    <button onclick="logout()" class="logout-btn" id="logout-btn">Logout</button>
+                    <button onclick="setGuestMode()" class="guest-btn" id="guest-mode-btn">Guest Mode</button>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <div id="upload" class="page">
+        <button class="back-btn" onclick="showPage('profile')">← Back to Profile</button>
+        <section class="upload-form">
+            <h3>Upload Your CV</h3>
+            <form id="cv-form">
+                <input type="text" id="upload-name" placeholder="Name" required>
+                <input type="text" id="upload-city" placeholder="City" required>
+                <input type="text" id="upload-degree" placeholder="Degree" required>
+                <input type="text" id="upload-skills" placeholder="Skills (comma separated)" required>
+                <input type="text" id="upload-experience" placeholder="Experience" required>
+                <input type="text" id="upload-languages" placeholder="Languages (comma separated)" required>
+                <input type="file" id="upload-cv" accept=".pdf,.doc,.docx" required>
+                <div id="upload-status" style="display:none; color: green; margin-top: 10px;">Uploading...</div>
+                <button type="submit">Upload</button>
+            </form>
+        </section>
+    </div>
+
+    <div id="login" class="page">
+        <section class="login-section">
+            <div class="auth-tabs">
+                <button id="login-tab" class="auth-tab active" onclick="showLoginTab()">Sign In</button>
+                <button id="register-tab" class="auth-tab" onclick="showRegisterTab()">Create Account</button>
+            </div>
+
+            <!-- Login Form -->
+            <div id="login-form-container" class="auth-form-container">
+                <h2>Sign In to HireGrid</h2>
+                <p class="login-subtitle">Enter your credentials to access your account</p>
+
+                <form id="login-form" class="login-form">
+                    <div class="form-group">
+                        <label for="login-email">Email</label>
+                        <input type="email" id="login-email" required placeholder="Enter your email">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" required placeholder="Enter your password">
+                    </div>
+
+                    <div class="form-options">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="remember-me">
+                            <span class="checkmark"></span>
+                            Remember me
+                        </label>
+                        <a href="#" class="forgot-password">Forgot password?</a>
+                    </div>
+
+                    <button type="submit" class="login-btn">Sign In</button>
+                </form>
+
+                <div class="social-login">
+                    <div class="social-divider">
+                        <span>Or sign in with</span>
+                    </div>
+                    <div class="social-buttons">
+                        <button onclick="loginWithGoogle()" class="social-btn google-btn">
+                            <span class="social-icon">G</span>
+                            Google
+                        </button>
+                        <button onclick="loginWithFacebook()" class="social-btn facebook-btn">
+                            <span class="social-icon">f</span>
+                            Facebook
+                        </button>
+                    </div>
+                </div>
+
+                <div class="demo-accounts">
+                    <h4>📝 Demo Accounts for Testing</h4>
+                    <div class="demo-accounts-list">
+                        <div class="demo-account">
+                            <strong>HR Manager:</strong>
+                            <p>Email: <code>hr@hiregrid.com</code></p>
+                            <p>Password: <code>HRManager123@</code></p>
+                        </div>
+                        <div class="demo-account">
+                            <strong>Job Seeker:</strong>
+                            <p>Email: <code>jobseeker@hiregrid.com</code></p>
+                            <p>Password: <code>JobSeeker123@</code></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Register Form -->
+            <div id="register-form-container" class="auth-form-container" style="display: none;">
+                <h2>Create Your Account</h2>
+                <p class="login-subtitle">Join HireGrid to access all features</p>
+
+                <form id="register-form" class="login-form">
+                    <div class="form-group">
+                        <label for="register-name">Full Name</label>
+                        <input type="text" id="register-name" required placeholder="Enter your full name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="register-email">Email</label>
+                        <input type="email" id="register-email" required placeholder="Enter your email">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="register-password">Password</label>
+                        <input type="password" id="register-password" required placeholder="Create a password" pattern="(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}">
+                        <small class="password-hint">Must contain at least 8 characters, one number, and one special character (@$!%*?&)</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="register-confirm-password">Confirm Password</label>
+                        <input type="password" id="register-confirm-password" required placeholder="Confirm your password">
+                    </div>
+
+                    <div class="form-options">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="register-terms" required>
+                            <span class="checkmark"></span>
+                            I agree to the <a href="#" target="_blank">Terms of Service</a> and <a href="#" target="_blank">Privacy Policy</a>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="login-btn">Create Account</button>
+                </form>
+
+                <div class="social-login">
+                    <div class="social-divider">
+                        <span>Or sign up with</span>
+                    </div>
+                    <div class="social-buttons">
+                        <button onclick="registerWithGoogle()" class="social-btn google-btn">
+                            <span class="social-icon">G</span>
+                            Google
+                        </button>
+                        <button onclick="registerWithFacebook()" class="social-btn facebook-btn">
+                            <span class="social-icon">f</span>
+                            Facebook
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
